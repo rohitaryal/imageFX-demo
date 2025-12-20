@@ -78,7 +78,7 @@ function attachImage(base64Image) {
 }
 
 async function generateImage(prompt) {
-    const res = await fetch("/generate/?prompt=" + encodeURI(prompt))
+    const res = await fetch("/generate?prompt=" + encodeURI(prompt))
     const base64Image = await res.text();
 
     console.log(base64Image);
