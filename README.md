@@ -1,7 +1,7 @@
 # imageFX-demo
 
-Check live demo [here]("https://imagefx.rohitsharma.com.np")
-Check live demo [here (backup)](https://imagefx-demo.erucix.workers.dev)
+- Check live demo [here](https://imagefx.rohitsharma.com.np)
+- Check live demo [here (backup)](https://imagefx-demo.erucix.workers.dev)
 
 ---
 
