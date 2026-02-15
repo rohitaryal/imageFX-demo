@@ -2,180 +2,402 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-ion-icon {
-  color: rgb(87, 87, 87);
-  font-size: 1.2em;
+:root {
+  --primary-color: #f0ba87;
+  --bg-color: #fff;
+  --text-color: #333;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(240, 186, 135, 0.5);
+  --chat-msg-bg: rgba(240, 186, 135, 0.2);
+  --chat-msg-hover: rgba(240, 186, 135, 0.4);
+  --input-bg: rgba(255, 255, 255, 0.8);
+  --card-actions-bg: rgba(255, 255, 255, 0.9);
+  --drawer-mobile-bg: rgba(255, 255, 255, 0.65);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #dfa065;
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --glass-bg: rgba(30, 30, 30, 0.6);
+    --glass-border: rgba(223, 160, 101, 0.3);
+    --chat-msg-bg: rgba(223, 160, 101, 0.15);
+    --chat-msg-hover: rgba(223, 160, 101, 0.25);
+    --input-bg: rgba(30, 30, 30, 0.8);
+    --card-actions-bg: rgba(40, 40, 40, 0.9);
+    --drawer-mobile-bg: rgba(20, 20, 20, 0.4);
+    /* Transparent dark drawer */
+  }
+
+  body {
+    background-image: radial-gradient(#333 1px, transparent 0) !important;
+    /* Update dots for dark mode */
+    background-color: var(--bg-color) !important;
+  }
+
+  .mainContainer {
+    background-image: radial-gradient(#3a2a1a 2px, transparent 0);
+    /* Subtle dots in dark mode */
+  }
+
+  ion-icon {
+    color: #ccc;
+  }
+
+  .chatBox::before,
+  .chatBox::after {
+    background-color: #2a2a2a;
+    /* Dark corner squares */
+    border-color: var(--primary-color);
+  }
+
+  .inputContainer input {
+    color: var(--text-color);
+  }
+
+  .cardActions button {
+    background: var(--card-actions-bg);
+    color: var(--text-color);
+  }
+
+  .cardActions button:hover {
+    background: var(--primary-color);
+    color: #121212;
+  }
 }
 
 body {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+  background: var(--bg-color);
+  color: var(--text-color);
+}
+
+ion-icon {
+  font-size: 1.4em;
+  color: #555;
+  transition: color 0.2s;
+  display: inline-block;
+  /* Fix rotation axis */
 }
 
 .mainContainer {
   height: 100vh;
   width: 100vw;
   display: grid;
-  grid-template-columns: 300px auto;
-  background: white;
+  grid-template-columns: 350px auto;
   background-image: radial-gradient(#ebb583 2px, transparent 0);
   background-size: 30px 30px;
   background-position: -19px -19px;
+  transition: all 0.3s ease;
 }
 
-.imageContainer {
-    height: 100vh;
-    padding: 1em;
-    position: relative;
-}
-
-.imageContainer .imageCard {
-    position: absolute;
-    overflow: hidden;
-    width: 60%;
-    aspect-ratio: 4/3;
-    border-radius: 10px;
-    border: 2px dashed grey;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    backdrop-filter: blur(10px);
-}
-
-.imageContainer .imageCard:hover {
-    z-index: 100;
-    border: 2px dashed tomato;
-    box-shadow: 0 0 10px 10px grey;
-}
-
-.imageCard .cardActions {
-    display: flex;
-    opacity: 0;
-    transition: 0.2s;
-    margin: 10px;
-    gap: 10px;
-}
-
-.imageCard:hover .cardActions {
-    opacity: 1;
-}
-
-.imageCard .cardActions button {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: 0;
-    background: rgba(0,0,0,.05);
-    backdrop-filter: blur(8px);
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-    transition: transform 0.15s;
-}
-
+/* Chat Box Area */
 .chatBox {
-  height: calc(100vh - 1em);
-  border: 1px solid #f0ba87;
-  backdrop-filter: blur(2px);
-  margin: 0.5em;
-  /* padding: 0.5em; */
+  height: calc(100vh - 2em);
+  margin: 1em;
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
   position: relative;
-  /* border-radius: 5px; */
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  /* overflow: hidden; Removed to allow absolute pinned elements to show if needed, but mostly for decorations inside */
 }
 
+/* Corner Decorations */
 .chatBox::before {
   content: "";
   position: absolute;
-  top: -5px;
-  left: -5px;
-  height: 10px;
-  width: 10px;
-  border: 1px solid #f0ba87;
+  top: -6px;
+  left: -6px;
+  height: 12px;
+  width: 12px;
+  border: 1px solid var(--primary-color);
   border-radius: 2px;
   background-color: #fff1e4;
+  z-index: 10;
 }
 
 .chatBox::after {
   content: "";
   position: absolute;
-  bottom: -5px;
-  left: -5px;
-  height: 10px;
-  width: 10px;
-  border: 1px solid #f0ba87;
+  bottom: -6px;
+  left: -6px;
+  height: 12px;
+  width: 12px;
+  border: 1px solid var(--primary-color);
   border-radius: 2px;
   background-color: #fff1e4;
+  z-index: 10;
 }
 
-.inputContainer {
+.chatContainer {
+  flex: 1;
+  padding: 1em;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* Chat Messages */
+.chatContainer p {
+  background-color: var(--chat-msg-bg);
+  padding: 0.8em 1em;
+  margin-bottom: 0.8em;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom-left-radius: 2px;
+  position: relative;
+  animation: slideIn 0.3s ease-out;
+  color: var(--text-color);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chatContainer p:hover {
+  background-color: var(--chat-msg-hover);
+  transform: translateX(2px);
+}
+
+/* Status Indicators */
+.status-icon {
   position: absolute;
-  bottom: 0;
-  width: 100%;
-  z-index: 1;
-  padding: 0.5em;
+  bottom: -6px;
+  right: -6px;
+  background: white;
+  border-radius: 50%;
+  padding: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1.1em;
+  width: 24px;
+  height: 24px;
   display: flex;
-  border-top: 1px solid #f0ba87;
-  font-size: 1.2em;
-  backdrop-filter: blur(10px);
+  align-items: center;
+  justify-content: center;
+}
+
+.status-icon ion-icon {
+  display: block;
+  width: 1em;
+  height: 1em;
+}
+
+.status-icon.loading {
+  animation: spin 1s linear infinite;
+  color: #ff9800;
+}
+
+.status-icon.success {
+  color: #4caf50;
+}
+
+.status-icon.failure {
+  color: #f44336;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Input Area */
+.inputContainer {
+  padding: 1em;
+  background: var(--input-bg);
+  border-top: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
 }
 
 .inputContainer input {
+  flex: 1;
   border: none;
   outline: none;
-  background-color: transparent;
-  flex: 1;
+  background: transparent;
+  padding: 0.5em;
+  font-size: 1em;
+  color: var(--text-color);
 }
 
 .inputContainer .generateButton {
   cursor: pointer;
+  background: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-size: 1.2em;
+  user-select: none;
 }
 
-.chatContainer {
-  padding: 0.2em 0.2em 3em 0.2em;
-  height: 100%;
-  overflow-y: auto;
+.inputContainer .generateButton:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(240, 186, 135, 0.6);
 }
 
-.chatContainer p {
-  background-color: #f0ba8760;
-  cursor: pointer;
-  padding: .5em;
-  margin: .5em;
+.inputContainer .generateButton:active {
+  transform: scale(0.95);
+}
+
+/* Image Area */
+.imageContainer {
   position: relative;
-  transition: .1s;
-  overflow-wrap: break-word;
+  height: 100vh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
 }
 
-.chatContainer p:hover {
-    background-color: #f0ba87bd;
+.imageContainer .imageCard {
+  position: absolute;
+  width: 60%;
+  max-width: 600px;
+  aspect-ratio: 4/3;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: 4px solid white;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: grab;
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.chatContainer p::before {
-    border: 1px solid black;
-    background-color: white;
-    padding: .5em;
-    border-radius: 10px;
-    font-size: 0.8em;
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-.chatContainer p.success::before {
-  position: absolute;
-  bottom: -5px;
-  right: -7px;
-  content: "✅️";
+.imageContainer .imageCard:active {
+  cursor: grabbing;
 }
-.chatContainer p.loading::before {
-  position: absolute;
-  bottom: -5px;
-  right: -7px;
-  content: "⏰";
+
+.imageContainer .imageCard:hover {
+  z-index: 100 !important;
+  transform: scale(1.02) rotate(0deg) !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
 }
-.chatContainer p.failure::before {
+
+/* Card Actions */
+.cardActions {
   position: absolute;
-  bottom: -5px;
-  right: -7px;
-  content: "❌";
+  bottom: 0px;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.6));
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.imageCard:hover .cardActions {
+  opacity: 1;
+}
+
+.cardActions button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: var(--card-actions-bg);
+  color: var(--text-color);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.cardActions button:hover {
+  transform: translateY(-2px);
+  background: white;
+  color: var(--primary-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .mainContainer {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .chatBox {
+    height: auto;
+    max-height: 40vh;
+    order: 2;
+    /* Put chat below image on mobile, or remove correct order if desired */
+    /* Let's keep chat at bottom for easy thumb access */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    border-radius: 20px 20px 0 0;
+    border-bottom: none;
+    z-index: 1000;
+    background: var(--drawer-mobile-bg);
+    /* More transparent */
+    backdrop-filter: blur(20px);
+    /* Stronger blur */
+    border: 1px solid var(--glass-border);
+    padding-bottom: env(safe-area-inset-bottom);
+    /* Handle notch/bar */
+  }
+
+  .imageContainer {
+    height: 100vh;
+    padding-bottom: 40vh;
+    /* Make room for chat box */
+    align-items: flex-start;
+    padding-top: 2em;
+  }
+
+  .imageContainer .imageCard {
+    width: 85%;
+    max-width: none;
+  }
+
+  .cardActions {
+    opacity: 1;
+    /* Always show actions on mobile */
+  }
 }
